@@ -6,6 +6,11 @@ TagManager:
   tags:
   - Bullet
   - Enemy
+  - Color
+  - Sport
+  - Fruit
+  - Vegetable
+  - Job
   layers:
   - Default
   - TransparentFX
