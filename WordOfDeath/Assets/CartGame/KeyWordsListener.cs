@@ -19,7 +19,7 @@ namespace CardGame
 
         private void OnPhraseRecognized(PhraseRecognizedEventArgs args)// yukarıda listede belirttigim kelimelerden biri varsa çalış
         {
-            Debug.Log(args.text.ToString());
+           // Debug.Log(args.text.ToString());
             cartActivite.FindingCard(args.text.ToString());
             
         }
