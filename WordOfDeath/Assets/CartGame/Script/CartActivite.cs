@@ -2,25 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 namespace CardGame
 {
 
     public class CartActivite : MonoBehaviour
     {
         [SerializeField] private string[] category;
+        [SerializeField] private Text[] GameEndPanelButtons;
+        [SerializeField] private Text[] levelKeyTexts;
         [SerializeField] private GameObject categoryPanel;
         [SerializeField] private Text categoryText;
         [SerializeField] private Transform backGround;
-        [SerializeField] private Text[] levelKeyTexts;
         [SerializeField] private GameObject GameEndPanel;
-        [SerializeField] private Text[] GameEndPanelButtons;
+    
         private List<int> categoryCount;
-        private string currentCategory;
         private int indexword;
         private int indexCategory;
+        private string currentCategory;
         private string nextLevelKey;
-        // 8 tane oldugunda diğer levele geç
-        // bir havuza at ve havuzdan resimleri çek
+       
+       
         void Start()
         {
             indexCategory = 0;
@@ -39,25 +41,32 @@ namespace CardGame
         }
         public void FindingCard(string cardName)
         {
+            backGround.GetComponent<GridLayoutGroup>().enabled = false;//random kart atamada sorun yaratiyor eger start da calisirsa hep ayni siralamayi yapiyor
             categoryPanel.SetActive(false);
             GameObject card = GameObject.Find(cardName);//karti bulabilmemiz icin
             if (card != null)
             {
                 if (card.gameObject.tag == currentCategory)
                 {
-                   // Destroy(card);
                    
+
                     card.transform.GetChild(0).gameObject.SetActive(false);
                     card.transform.GetChild(1).gameObject.SetActive(true);
-                   // Instantiate<> // ürettigin prefabdan bir tane üret içinde gelecek elin ismi yazsın
                     card.transform.GetChild(1).gameObject.transform.SetParent(backGround);
                     Destroy(card);
-                    // puan
+                  
                 }
                 else
                 {
                     // yanlış kart animasyonu - puan
                 }
+            }
+        }
+        public void buttonChecking(Text objtext)
+        {
+            if (objtext.text == nextLevelKey)
+            {
+                SceneManager.LoadScene("CartGame");
             }
         }
         public void WordsBlend(int countword)
@@ -73,7 +82,6 @@ namespace CardGame
                 }
             }
         }
-
         void ChangeCategory()
         {
             if (indexCategory >= categoryCount.Count)
@@ -87,18 +95,14 @@ namespace CardGame
             indexCategory++;
             //Debug.Log(currentCategory);
         }
-
         void WriteKey()
         {
             int i = 0;
             nextLevelKey = category[categoryCount[1]];
             foreach (char levelKey in nextLevelKey)
             {
-                //Debug.Log(levelKey);
-              
                 levelKeyTexts[i].text = levelKey.ToString();
                 i++;
-
             }
         }
         void GameEnd()
